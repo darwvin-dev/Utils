@@ -2,14 +2,15 @@ import axios, { AxiosRequestConfig, Method } from "axios";
 import { toast } from "react-toastify";
 
 const BASE_URL = "https://yourbackend.com/api";
-const noToast = ["/cart", "/cart/clear"]; // مسیرهایی که نباید اعلان خطا نمایش دهند
+const noToast = ["/cart", "/cart/clear"]; 
 
 /**
- * 📌 تابع ارسال درخواست به `backend`
- * @param {string} url - مسیر درخواست (مثلاً `/cart`)
- * @param {Method} method - نوع درخواست (`GET`, `POST`, `PATCH`, `DELETE`)
- * @param {any} data - داده‌های ارسالی به `backend`
- * @param {boolean} fullUrl - آیا `url` مطلق است یا نسبی؟
+ * 📌 API request wrapper using Axios
+ *
+ * @param {string} url - The request endpoint (e.g., `/cart`)
+ * @param {Method} method - HTTP method (`GET`, `POST`, `PATCH`, `DELETE`, etc.)
+ * @param {any} data - Payload to send to the backend
+ * @param {boolean} fullUrl - Whether the URL is absolute or relative
  * @returns {Promise<{success: boolean, status: number, message?: string, data?: any, error?: string}>}
  */
 const request = async (
@@ -26,7 +27,7 @@ const request = async (
     headers: {
       "Content-Type": data instanceof FormData ? "multipart/form-data" : "application/json",
     },
-    withCredentials: true, // برای ارسال `cookie` در درخواست‌های `CORS`
+    withCredentials: true, 
   };
 
   if (method !== "GET" && data) {
@@ -45,9 +46,9 @@ const request = async (
       };
     }
   } catch (error: any) {
-    console.error("❌ خطا در ارتباط با `API`:", error);
+    console.error("❌ API request error:", error);
 
-    const message = error.response?.data?.message || "خطای ناشناخته‌ای رخ داده است";
+    const message = error.response?.data?.message || "An unknown error occurred";
     if (!noToast.includes(url)) toast.error(message);
 
     return {
