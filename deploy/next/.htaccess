@@ -1,8 +1,16 @@
 RewriteEngine On
+
+# Serve file.html when /file/ is requested
 RewriteRule ^([^/]+)/$ $1.html
+
+# Only rewrite if the file does not exist
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^([^/]+)/$ $1.html
+
+# Serve /folder/file.html when /folder/file/ is requested
 RewriteRule ^([^/]+)/([^/]+)/$ /$1/$2.html
+
+# Redirect URLs that do not end with file extension or slash to their slash form
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} !(\.[a-zA-Z0-9]{1,5}|/)$
